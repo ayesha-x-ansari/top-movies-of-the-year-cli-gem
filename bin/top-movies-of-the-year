@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require './lib/top_movies_of_the_year'
+require "bundler/setup"
+
+TopMoviesOfTheYear::CLI.new.call
