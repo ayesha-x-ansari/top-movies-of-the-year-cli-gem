@@ -1,7 +1,8 @@
 class TopMoviesOfTheYear::Movies
 
   attr_accessor :title, :url, :timeurl, :infourl, :reviewurl, :videosurl, :rating, :year, :genre,
-  :directedby, :company, :desc, :starring
+  :directedby, :company, :desc, :starring_array
+
   @@all = []
 
   def self.new_from_index_page(movie_row)
@@ -30,70 +31,70 @@ class TopMoviesOfTheYear::Movies
   end
 
   def time_url
-    @tim_button ||= "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btntim").attr("href").text}"
+    @tim_button  =  "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btntim").attr("href").text}"
   end
 
   def info_url
-    @info_button ||= "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btninf").attr("href").text}"
+    @info_button  =  "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btninf").attr("href").text}"
   end
 
   def review_url
-    @rev_button ||= "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnrev").attr("href").text}"
+    @rev_button  =  "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnrev").attr("href").text}"
   end
 
   def video_url
     if "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnvid").attr("href")}" != "https://www.cinemaclock.com"
-     @vid_button = "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnvid").attr("href").text}"
+     @vid_button  =  "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnvid").attr("href").text}"
     else
-      @vid_button = "Unavailable at this time"
+      @vid_button  =  "Unavailable at this time"
     end
   end
 
   def  get_rating
-    rating  = profile_doc.css("#ratingmpaa > td.desc2 > div > div > span").text
+    @rating  =  profile_doc.css("#ratingmpaa > td.desc2 > div > div > span").text
   end
 
   def  get_year
-    scraper_doc = profile_doc.css("table.desc tr")
+    scraper_doc  =  profile_doc.css("table.desc tr")
     scraper_doc.collect  do |row|
-      if row.css("td.desc1").text  == "Year"
-        return  @year =  row.css("td.desc2").text
+      if row.css("td.desc1").text  ==  "Year"
+        return  @year  =  row.css("td.desc2").text
       end
     end
   end
 
   def get_genre
-    scraper_doc = profile_doc.css("table.desc tr")
+    scraper_doc  =  profile_doc.css("table.desc tr")
     scraper_doc.collect  do |row|
-      if row.css("td.desc1").text  == "Genre"
-        return  @genre =  row.css("td.desc2").text
+      if row.css("td.desc1").text  ==  "Genre"
+        return  @genre  =  row.css("td.desc2").text
       end
     end
   end
 
   def get_directedby
-    scraper_doc     = profile_doc.css("table.desc tr")
+    scraper_doc  =  profile_doc.css("table.desc tr")
     scraper_doc.collect  do |row|
-      if row.css("td.desc1").text  == "Directed by"
-        return  @directedby =  row.css("td.desc2").text
+      if row.css("td.desc1").text  ==  "Directed by"
+        return  @directedby  =  row.css("td.desc2").text
       end
     end
   end
 
   def get_company
-    @company = profile_doc.xpath("//*[@id='companycan']").text
+    @company  =  profile_doc.xpath("//*[@id='companycan']").text
   end
 
   def  get_desc
-    @desc = profile_doc.css("div:nth-child(5) > i").text
+    @desc  =  profile_doc.css("div:nth-child(5) > i").text
   end
 
   def get_starring
-    starring_doc   = profile_doc.css("div#actors1 div.aktor div.aktnam")
-    starring_array =   starring_doc.collect do |row|
+    starring_doc  =  profile_doc.css("div#actors1 div.aktor div.aktnam")
+    @starring_array  =  starring_doc.collect do |row|
       row.css("span.acname").text.strip
     end
-    starring_array.compact.reject(&:empty?).join(', ')
+    @starring_array.compact.reject(&:empty?).join(', ')
   end
 
 end

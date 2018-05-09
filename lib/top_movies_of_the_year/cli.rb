@@ -7,11 +7,9 @@ class TopMoviesOfTheYear::CLI
 
   def list_movies
     print_topmovies
-
   end
 
   def menu
-    puts "Enter the number of movie from 1 to #{TopMoviesOfTheYear::Movies.all.size} you want more information on or" +  ' type "exit" to quit.'
     input = nil
     while input != "exit"
       input = gets.strip.downcase
@@ -21,7 +19,7 @@ class TopMoviesOfTheYear::CLI
         print_movie(movie)
       elsif input.to_i  >  TopMoviesOfTheYear::Movies.all.size
         puts "You entered number #{input.to_i}."
-        puts "Enter the number of movie from 1 to #{TopMoviesOfTheYear::Movies.all.size} you want more information on or" +  ' type "list" to list movies or  "exit" to quit.'
+        puts  'Type "list" to list movies  OR  type "exit" to quit.'
       elsif input == "list"
         list_movies
       elsif input == "exit"
@@ -35,8 +33,9 @@ class TopMoviesOfTheYear::CLI
   end
 
   def print_topmovies
-    puts ""
-    puts "---------------------------#{TopMoviesOfTheYear::Movies.all.size} Top Movies ---------------------------"
+    puts "-------------------------------------------------------------------------------------------------------------"
+    puts "           W E L C O M E    T O    T H E    #{TopMoviesOfTheYear::Movies.all.size}    T O P    M O V I E S    O F    T H E    Y E A R  "
+    puts "-------------------------------------------------------------------------------------------------------------"
     puts ""
 
     TopMoviesOfTheYear::Movies.all.each.with_index(1) do |movies, index|
@@ -45,7 +44,11 @@ class TopMoviesOfTheYear::CLI
       end
         puts "#{index}.  #{movies.title}"
     end
+    puts ""
+    puts "Enter the number of movie from 1 to #{TopMoviesOfTheYear::Movies.all.size} you want more information on or " +  'type "exit" to quit.'
+    puts ""
   end
+
   def print_movie(movie)
     puts ""
     puts "----------------------------------------#{movie.title} ------------------------------------"
