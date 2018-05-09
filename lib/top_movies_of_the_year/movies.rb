@@ -42,7 +42,11 @@ class TopMoviesOfTheYear::Movies
   end
 
   def video_url
-      @vid_button ||= "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnvid").attr("href").text}"
+    if "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnvid").attr("href")}" != "https://www.cinemaclock.com"
+     @vid_button = "https://www.cinemaclock.com#{profile_doc.css("a.buttontoptab.btnvid").attr("href").text}"
+    else
+      @vid_button = "Unavailable at this time"
+    end
   end
 
   def  get_rating
